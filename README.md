@@ -1,117 +1,74 @@
-# AWS Certified DevOps Engineer - Professional Study Notes
+# AWS Certified DevOps Engineer - Professional (DOP-C02) Study Notes
 
-This repository provides a collection of notes, tips, and resources that I found helpful while preparing for the AWS Certified DevOps Engineer - Professional exam. I’m sharing them to support other professionals pursuing this certification. However, please note that this is not a comprehensive guide, and it may not cover everything you need to pass the exam. I might have skipped some lessons due to my experience and you should in no circumstances rely on a single source for your prepration!
-At the end of this page, I’ve included some courses that I personally used, and I highly recommend using a structured course to fill any knowledge gaps.
-
-## Good luck to all exam takers and wishing you the best outcome!
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Disclaimer](#disclaimer)
-- [Exam Format](#exam-format)
-- [Study Notes](#study-notes)
-- [Key Concepts](#key-concepts)
-- [Recommended Material](#recommended-material)
-- [Contributing](#contributing)
+Welcome to the **AWS Certified DevOps Engineer - Professional (DOP-C02)** study notes repository. This repository provides a collection of notes, study guides, and an interactive practice test shell to support your exam preparation.
 
 ---
 
-## Disclaimer
+## 🚀 Quick Access Study Hub & Practice Test Shell
 
-These notes are provided "as-is" without any guarantees or warranty. While every effort has been made to ensure the accuracy of the content, there is no guarantee that this will cover everything in the actual exam. Use this material as a supplement to your own study plan.
-
-**Note**: AWS certifications are subject to change, so always refer to the [official AWS Certification Guide](https://aws.amazon.com/certification/) for the latest information.
-
----
-
-## Exam Fromat
-
-The **AWS Certified DevOps Engineer - Professional** exam is designed for individuals who perform a DevOps engineer role and have at least two years of experience provisioning, operating, and managing AWS environments.
-
-> Level: Professional
-> Length: 180 Minutes
-> Cost: 300 USD
-> Format: 75 questions, multiple choice or multiple response
-
-The exam validates expertise in:
-
-- Implementing and managing continuous delivery systems and methodologies on AWS
-- Implementing and automating security controls, governance processes, and compliance validation
-- Defining and deploying monitoring, metrics, and logging systems on AWS
-- Implementing systems that are highly available, scalable, and self-healing on the AWS platform
-- Designing, managing, and maintaining tools to automate operational processes
-
-For more details, visit the [official AWS Exam Guide](https://aws.amazon.com/certification/certified-devops-engineer-professional/).
+- 📖 **[Master Study Guide](Master-Study-Guide.md)** - Comprehensive domain-by-domain master reference compiling all 26 study topic notes into a single cohesive guide.
+- 🎧 **[Audio-Friendly Master Study Guide](Master-Study-Guide-Audio.md)** - Text-to-Speech (TTS) & screen reader optimized guide without complex tables or emojis.
+- 🧪 **[Interactive Practice Test Shell (`index.html`)](index.html)** - Interactive browser-based exam hub featuring practice & exam modes, domain filters, instant feedback, scoring, and speech synthesis!
 
 ---
 
-## Key Concepts
+## 📋 Table of Contents & Individual Study Notes
 
-These topics are the main concepts for your exam prepration rated by 💀.
+Explore the individual topic study notes grouped by domain coverage below:
 
-- Domain 1: SDLC Automation
-  - [Amazon CodeGuru](https://aws.amazon.com/codeguru/) 💀
-  - [AWS CodePipeline](https://aws.amazon.com/codepipeline/) 💀💀💀💀💀
-  - [AWS CodeBuild](https://aws.amazon.com/codebuild/) 💀💀💀💀
-  - [AWS CodeCommit](https://aws.amazon.com/codecommit/) 💀💀💀
-  - [Amazon ECS](https://aws.amazon.com/ecs/) 💀💀💀
-  - [Amazon EKS](https://aws.amazon.com/eks/) 💀💀
-  - [AWS Cloudformation](https://aws.amazon.com/cloudformation/) 💀💀💀💀💀
-  - [What is SDLC?](https://aws.amazon.com/what-is/sdlc/) 💀💀
-- Domain 2: Configuration Management and IaC
-  - [AWS System Manager](https://aws.amazon.com/systems-manager/) 💀💀💀💀💀
-  - [AWS Config](https://aws.amazon.com/config/) 💀💀💀
-  - [AWS OpsWorks](https://aws.amazon.com/opsworks/) 💀
-  - [What is Configuration Management?](https://aws.amazon.com/what-is/configuration-management/) 💀💀💀
-- Domain 3: Resilient Cloud Solutions
-  - [Amazon Route53](https://aws.amazon.com/route53/) 💀💀💀
-  - [AWS Resource Access Manager](https://aws.amazon.com/ram/?c=sc&sec=srvm) 💀
-  - [Understand resiliency patterns and trade-offs to architect efficiently in the cloud](https://aws.amazon.com/blogs/architecture/understand-resiliency-patterns-and-trade-offs-to-architect-efficiently-in-the-cloud/) 💀💀
-  - [Shared Responsibility Model for Resiliency](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/shared-responsibility-model-for-resiliency.html) 💀💀
-  -
-- Domain 4: Monitoring and Logging
-  - [AWS CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html) 💀💀
-  - [Amazon CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) 💀💀💀💀
-  - [Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) 💀💀💀💀
-  - [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) 💀
-  - [AWS X-Ray](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html) 💀💀
-- Domain 5: Incident and Event Response
-  - [What is Incident Management?](https://aws.amazon.com/what-is/incident-management/) 💀💀
-  - [Remediating Noncompliant Resources with AWS Config](https://docs.aws.amazon.com/config/latest/developerguide/remediation.html) 💀💀💀
-- Domain 6: Security and Compliance
-  - [AWS Organization](https://aws.amazon.com/organizations/?c=sc&sec=srvm) 💀💀💀💀💀
-  - [AWS Identity Center](https://aws.amazon.com/iam/identity-center/?c=sc&sec=srvm) 💀💀💀💀💀
-  - [AWS IAM](https://aws.amazon.com/iam/?c=sc&sec=srvm) 💀💀💀💀💀
-  - [Amazon GuardDuty](https://aws.amazon.com/guardduty/?c=sc&sec=srvm) 💀
-  - [Amazon Cognito](https://aws.amazon.com/cognito/?c=sc&sec=srvm) 💀💀
-  - [AWS Directory Service](https://aws.amazon.com/directoryservice/?c=sc&sec=srvm) 💀
-  - [AWS Inspector](https://aws.amazon.com/inspector/?c=sc&sec=srvm) 💀💀
-  - [AWS Security Hub](https://aws.amazon.com/security-hub/?c=sc&sec=srvm) 💀
-  - [AWS Config](https://aws.amazon.com/config/?c=sc&sec=srvm) 💀💀💀💀
-  - [AWS Firewall Manager](https://aws.amazon.com/firewall-manager/?c=sc&sec=srvm) 💀
-  - [AWS WAF](https://aws.amazon.com/waf/?c=sc&sec=srvm) 💀
+### 1. Master Guides & Interactive Practice Hub
+- 📖 [Master Study Guide](Master-Study-Guide.md)
+- 🎧 [Audio-Friendly Master Study Guide](Master-Study-Guide-Audio.md)
+- 🧪 [Interactive Practice Test Shell (`index.html`)](index.html)
+- ❓ [Practice Questions Dataset (`questions.js`)](questions.js)
 
----
+### 2. Topic Study Notes Index
 
-## Study Notes
+#### SDLC Automation & Container Compute
+- 📝 [AWS CodeBuild](<Study%20Notes/CodeBuild.md>)
+- 📝 [AWS CodeDeploy](<Study%20Notes/CodeDeploy.md>)
+- 📝 [Elastic Beanstalk](<Study%20Notes/Elastic%20Beanstalk.md>)
+- 📝 [Amazon EC2](<Study%20Notes/EC2.md>)
+- 📝 [Amazon ECS](<Study%20Notes/ECS.md>)
+- 📝 [Amazon EKS](<Study%20Notes/EKS.md>)
+
+#### Infrastructure as Code & Configuration Management
+- 📝 [AWS CloudFormation](<Study%20Notes/Cloudformation.md>)
+- 📝 [AWS Systems Manager (SSM)](<Study%20Notes/SSM.md>)
+- 📝 [AWS Config](<Study%20Notes/Config.md>)
+- 📝 [AWS OpsWorks](<Study%20Notes/OpsWork.md>)
+
+#### Resilient Cloud Architecture & Databases
+- 📝 [Disaster Recovery & Business Continuity](<Study%20Notes/Disaster%20Recovery%20%26%20Business%20Continuity.md>)
+- 📝 [Amazon DynamoDB](<Study%20Notes/DynamoDB.md>)
+- 📝 [Amazon Redshift](<Study%20Notes/Redshift.md>)
+- 📝 [Networking & CloudFront](<Study%20Notes/Networking.md>)
+- 📝 [CloudFront CDN](<Study%20Notes/Cloudfront.md>)
+- 📝 [AWS Storage Services](<Study%20Notes/Storage.md>)
+
+#### Monitoring, Logging & Event Processing
+- 📝 [Amazon EventBridge](<Study%20Notes/EventBridge.md>)
+- 📝 [Amazon Kinesis Family](<Study%20Notes/Kinesis%20Family.md>)
+- 📝 [Amazon SQS](<Study%20Notes/SQS.md>)
+- 📝 [AWS Serverless Architecture](<Study%20Notes/Serverless.md>)
+- 📝 [Custom Integrations](<Study%20Notes/Custom%20Integrations.md>)
+
+#### Security, Analytics & Media
+- 📝 [AWS Identity and Access Management (IAM)](<Study%20Notes/IAM.md>)
+- 📝 [AWS Key Management Service (KMS)](<Study%20Notes/KMS.md>)
+- 📝 [Amazon EMR](<Study%20Notes/EMR.md>)
+- 📝 [Amazon QuickSight](<Study%20Notes/Quicksight.md>)
+- 📝 [AWS Media Services](<Study%20Notes/Media.md>)
 
 ---
 
-## Recommended Material
+## 📚 Exam Domains Overview
 
-- [Adrian Cantrill Course](https://learn.cantrill.io/p/aws-certified-devops-engineer-professional)
-- [Tutorials Dojo Practice Exam](https://portal.tutorialsdojo.com/courses/aws-certified-devops-engineer-professional-practice-exams/?_gl=1*oei1ua*_gcl_au*MTk0MTYzNDU2MS4xNzIxOTg3MDc4LjEwNzQzNDQ0MzguMTcyMTk4NzA3OS4xNzIxOTg3MDc4*_ga*OTMyMTIzMjcuMTcyMTk4NjYzMw..*_ga_L96TFJ1R9K*MTcyNTc5NTU4NC4xMS4wLjE3MjU3OTU1ODQuMC4wLjA.)
-- [AWS FAQ](https://aws.amazon.com/faqs/)
-- [AWS Whitepapers](https://aws.amazon.com/whitepapers/)
-- [AWS Documentation](https://aws.amazon.com/documentation/)
-
----
-
-## Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. Fork the repository.
-2. Make your changes.
-3. Submit a pull request with details on the changes made.
+| Domain | Weight | Core Focus Areas |
+|---|---|---|
+| **Domain 1: SDLC Automation** | **22%** | AWS CodePipeline, CodeBuild, CodeDeploy, Blue/Green & Canary deployments, cross-account pipelines. |
+| **Domain 2: Configuration Management & IaC** | **19%** | AWS CloudFormation, StackSets, Drift Detection, AWS Systems Manager (Parameter Store, Patch Manager, Session Manager). |
+| **Domain 3: Resilient Cloud Solutions** | **15%** | Disaster Recovery (Pilot Light, Warm Standby, Active-Active), Route 53 routing policies, Aurora Global Database. |
+| **Domain 4: Monitoring and Logging** | **15%** | Amazon CloudWatch Logs Insights, Metric Filters, Unified Agent, AWS X-Ray distributed tracing, VPC Flow Logs. |
+| **Domain 5: Incident and Event Response** | **14%** | Amazon EventBridge automated routing, AWS Config automated remediation with SSM Automation documents. |
+| **Domain 6: Security and Compliance** | **15%** | AWS Organizations, Service Control Policies (SCPs), AWS Security Hub, GuardDuty threat detection, IAM Permission Boundaries. |
