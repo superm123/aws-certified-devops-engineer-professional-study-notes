@@ -117,3 +117,59 @@ cache:
 
 - artifact section is optional, you don't need it if you use codebuild for pushing a container image to ECR or running tests
 - You can make code coverage reports using CodeBuild, Line coverage and Branch coverage are supported
+
+---
+
+## CodeBuild Overview
+
+- Fully managed **build service** — compiles source code, runs tests, and produces deployable artifacts.
+- No build servers to provision or manage; scales automatically.
+- Integrates with: **CodePipeline, CodeCommit, GitHub, Bitbucket, S3** (as source).
+- Build artifacts are stored in **S3**.
+- Build logs streamed to **CloudWatch Logs**.
+
+### Key Components
+| Component | Description |
+|-----------|-------------|
+| **Build Project** | Defines what to build: source, environment, buildspec, output artifacts |
+| **Buildspec file** | YAML instructions for CodeBuild (`buildspec.yml` in repo root, or inline in project) |
+| **Build Environment** | Docker image used for the build (AWS managed images or custom) |
+| **Artifacts** | Output of the build, stored in S3 |
+
+### Build Phases (in order)
+1. `SUBMITTED` → `QUEUED` → `PROVISIONING`
+2. `DOWNLOAD_SOURCE`
+3. **`INSTALL`** → **`PRE_BUILD`** → **`BUILD`** → **`POST_BUILD`**
+4. `UPLOAD_ARTIFACTS`
+5. `FINALIZING` → `COMPLETED`
+
+### Build Notifications
+- SNS notifications for build state changes via **CodePipeline** or **EventBridge**.
+- Pattern: EventBridge rule on CodeBuild state change → SNS topic → email/Slack.
+
+### CodeBuild with Pull Request Code Review
+- Trigger CodeBuild on a **pull request** to run automated code quality checks.
+- Results posted back to the PR as **comments** (approve/reject workflow).
+- Integrates with CodeCommit PR workflow and GitHub Actions equivalent.
+
+### Accessing Secrets in Builds
+- Store secrets in **AWS Secrets Manager** or **SSM Parameter Store**.
+- Reference in buildspec via `env.secrets-manager` or `env.parameter-store` sections.
+- Never hard-code credentials in the buildspec file.
+
+### CodeBuild Agent (Local)
+- Run CodeBuild builds **locally** on your development machine for faster iteration.
+- Set up the build image once, then iterate without pushing to CodeCommit.
+
+### Code Coverage Reports
+- CodeBuild supports **test reports** including line coverage and branch coverage.
+- Use `reports` section in buildspec to publish test result files (JUnit XML, Cucumber JSON, etc.).
+
+---
+
+## Exam Tips (CodeBuild)
+- buildspec.yml lives in the **root** of the source repository (or inline in the project config).
+- `artifact` section in buildspec is **optional** — skip it if you're pushing a Docker image to ECR.
+- Secrets → reference from **Parameter Store or Secrets Manager** in buildspec `env` section.
+- CodeBuild can replace **Jenkins** as the build provider in CodePipeline.
+- Build notifications → **EventBridge** (pipeline state or CodeBuild state) → SNS.

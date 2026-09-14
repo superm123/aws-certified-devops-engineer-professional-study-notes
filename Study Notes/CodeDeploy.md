@@ -158,3 +158,72 @@ For information about which lifecycle event hooks are valid for which deployment
 - `AllowTraffic` – During this deployment lifecycle event, internet traffic is allowed to access instances after a deployment. This event is reserved for the CodeDeploy agent and cannot be used to run scripts.
     
 - `AfterAllowTraffic` – You can use this deployment lifecycle event to run tasks on instances after they are registered with a load balancer.
+
+---
+
+## CodeDeploy Overview
+
+- Deployment service that **automates application deployments** to:
+  - **Amazon EC2 instances**
+  - **On-premises instances**
+  - **Serverless Lambda functions**
+  - **Amazon ECS services**
+- Reduces downtime during deployments; handles rollback automatically on failure.
+
+### Core Concepts
+| Concept | Description |
+|---------|-------------|
+| **Application** | Named container for the deployment components |
+| **Deployment Group** | Set of instances / Lambda / ECS service to deploy to (can be an ASG, tag-based, or explicit list) |
+| **Deployment Configuration** | Rules governing how fast/how many instances are deployed at once |
+| **Revision** | The deployable content (code + appspec file) stored in S3 or CodeCommit |
+| **CodeDeploy Agent** | Process running on EC2/on-premises that polls CodeDeploy and executes deployments |
+
+### Deployment Types
+| Type | Mechanism |
+|------|-----------|
+| **In-Place** | Stop app on existing instances, deploy, restart — has brief downtime window |
+| **Blue/Green** | Deploy to new instances (green), shift traffic, terminate old (blue) — zero downtime |
+
+### Deployment Configurations (In-Place, EC2)
+| Config | Behaviour |
+|--------|-----------|
+| `CodeDeployDefault.AllAtOnce` | Deploy to all instances simultaneously — fastest, highest risk |
+| `CodeDeployDefault.HalfAtATime` | Deploy to 50% at a time |
+| `CodeDeployDefault.OneAtATime` | Deploy to one instance at a time — slowest, safest |
+| **Custom** | Define `minimumHealthyHosts` as a number or percentage |
+
+### Lambda Traffic Shifting Configurations
+| Config | Behaviour |
+|--------|-----------|
+| `LambdaCanary10Percent5Minutes` | 10% traffic for 5 min, then 90% |
+| `LambdaLinear10PercentEvery1Minute` | Shift 10% every minute |
+| `LambdaAllAtOnce` | All traffic at once |
+
+### ECS Deployment
+- Blue/Green only: deploys a new **task set**, then shifts traffic via **ALB listener rules**.
+- ECS deployment hooks allow Lambda functions to run validation at each lifecycle step.
+
+### Revision Storage
+- **S3** — `.zip`, `.tar`, `.tar.gz` containing application files + `appspec.yml`.
+- **CodeCommit** — repo containing app + appspec.
+
+### CodeDeploy Agent
+- Must be installed on **EC2 / on-premises** instances.
+- Install via: **User Data script**, **SSM Run Command**, or baked into an AMI.
+- Polls CodeDeploy service for pending deployments.
+- Not required for Lambda or ECS (handled by CodeDeploy APIs directly).
+
+### EventBridge Integration
+- CodeDeploy emits events on deployment state changes.
+- Pattern: `EventBridge → SNS` to notify on deployment failure.
+- Pattern: `EventBridge → Lambda` for automated rollback triggers or ITSM ticket creation.
+
+## Exam Tips
+- CodeDeploy **agent** required on EC2/on-prem — not needed for Lambda/ECS.
+- Store revision in **S3** (most common) or CodeCommit.
+- `appspec.yml` in the **root** of the revision bundle — it's unique to CodeDeploy.
+- Rollback = re-deploy a previous **revision** (not truly in-place reversal).
+- Blue/Green for EC2 requires a **load balancer** (ALB/NLB/CLB).
+- Lambda deployments use **aliases and versions** to shift traffic gradually.
+- `minimumHealthyHosts` in deployment config controls safe-deployment thresholds.

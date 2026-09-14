@@ -86,3 +86,73 @@ AWS apply Allow or Deny based on this order:
 
 
 ![[Pasted image 20240824182105.png]]
+
+---
+
+## AWS Organizations & Multi-Account Security
+
+### AWS Organizations Overview
+- Centrally manage **multiple AWS accounts** under a single master (management) account.
+- **Organisational Units (OUs)** — group accounts hierarchically (e.g., dev OU, prod OU, security OU).
+- Service Control Policies (SCPs) applied at OU or account level.
+- Enables: consolidated billing, multi-account governance, Service Catalog sharing, GuardDuty/Config/Security Hub delegation.
+
+### Service Control Policies (SCPs)
+- IAM policies applied at the **Organisation root, OU, or account level**.
+- Act as **maximum permission boundaries** — they don't grant permissions; they restrict what the account can use.
+- Even an account's root user is restricted by SCPs (except for root tasks like closing the account).
+
+> **Key rule:** If an SCP exists on an account, it must explicitly **Allow** the action, otherwise it is an implicit **Deny**.
+
+### SCP vs Permission Boundary
+| Feature | SCP | Permission Boundary |
+|---------|-----|---------------------|
+| Scope | Account/OU level | Individual IAM principal |
+| Set by | Org management account | IAM admin in the account |
+| Effect | Limits what the whole account can do | Limits what one user/role can do |
+
+### AWS Control Tower
+- Orchestrates AWS best-practice account vending and governance using Organizations, Config, SSM, and CloudTrail.
+- Sets up a **Landing Zone** — a multi-account environment with security guardrails.
+- **Guardrails** = pre-packaged Config rules + SCPs.
+- Preventive guardrails: SCPs (prevent non-compliant actions).
+- Detective guardrails: Config rules (detect after the fact).
+
+### Resource Access Manager (RAM)
+- Share AWS resources securely **across accounts** within your Organisation.
+- Supported resources: subnets, Transit Gateways, Route 53 Resolver rules, License Manager, etc.
+- Avoids duplicating resources in every account.
+
+---
+
+## AWS CloudHSM
+
+- **Dedicated Hardware Security Module** in AWS — single-tenant, dedicated hardware.
+- Use when: compliance requires **dedicated hardware** (FIPS 140-2 Level 3).
+- Compare with KMS: KMS is multi-tenant; CloudHSM is single-tenant dedicated hardware.
+- You manage your own encryption keys (AWS has no access to keys in CloudHSM).
+
+---
+
+## AWS Directory Service
+
+- Provides **Microsoft Active Directory** in the cloud.
+- Options:
+  - **AWS Managed Microsoft AD** — fully managed AD domain in AWS; can establish trust with on-prem AD.
+  - **AD Connector** — proxy to redirect authentication to an existing on-premises AD.
+  - **Simple AD** — lightweight, standalone AD-compatible directory (no trust with on-prem).
+
+### Use Cases
+- Authenticate EC2 instances with corporate AD credentials.
+- Enable SSO for AWS console access via AD.
+- Join EC2 Windows instances to a domain automatically.
+
+---
+
+## Exam Tips (IAM + Organizations)
+- SCP = **maximum permissions** for an account; doesn't grant permissions on its own.
+- Root user in a member account is **still subject to SCPs**.
+- **Control Tower** = automated landing zone setup + guardrails using Organizations.
+- **RAM** = share resources (subnets, TGW) across accounts — no resource duplication.
+- **CloudHSM** = dedicated hardware (FIPS 140-2 Level 3) → answer when exam says "dedicated hardware".
+- **AWS Managed Microsoft AD** = trust relationship with on-premises AD.

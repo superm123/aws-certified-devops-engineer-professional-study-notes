@@ -24,38 +24,51 @@ Explore the individual topic study notes grouped by domain coverage below:
 
 ### 2. Topic Study Notes Index
 
-#### SDLC Automation & Container Compute
+#### SDLC Automation & CI/CD
+- 📝 [AWS CodeCommit](<Study%20Notes/CodeCommit.md>) ⭐ *new*
 - 📝 [AWS CodeBuild](<Study%20Notes/CodeBuild.md>)
 - 📝 [AWS CodeDeploy](<Study%20Notes/CodeDeploy.md>)
+- 📝 [AWS CodePipeline](<Study%20Notes/CodePipeline.md>) ⭐ *new*
+- 📝 [AWS CodeArtifact](<Study%20Notes/CodeArtifact.md>) ⭐ *new*
+- 📝 [Amazon CodeGuru](<Study%20Notes/CodeGuru.md>) ⭐ *new*
+- 📝 [EC2 Image Builder](<Study%20Notes/EC2ImageBuilder.md>) ⭐ *new*
+
+#### Container Compute
 - 📝 [Elastic Beanstalk](<Study%20Notes/Elastic%20Beanstalk.md>)
 - 📝 [Amazon EC2](<Study%20Notes/EC2.md>)
 - 📝 [Amazon ECS](<Study%20Notes/ECS.md>)
 - 📝 [Amazon EKS](<Study%20Notes/EKS.md>)
 
 #### Infrastructure as Code & Configuration Management
-- 📝 [AWS CloudFormation](<Study%20Notes/Cloudformation.md>)
-- 📝 [AWS Systems Manager (SSM)](<Study%20Notes/SSM.md>)
-- 📝 [AWS Config](<Study%20Notes/Config.md>)
-- 📝 [AWS OpsWorks](<Study%20Notes/OpsWork.md>)
+- 📝 [AWS CloudFormation](<Study%20Notes/Cloudformation.md>) *(+ StackSets + CDK)*
+- 📝 [AWS Systems Manager (SSM)](<Study%20Notes/SSM.md>) *(expanded)*
+- 📝 [AWS Config](<Study%20Notes/Config.md>) *(+ auto-remediation)*
+- 📝 [AWS OpsWorks](<Study%20Notes/OpsWork.md>) *(expanded)*
 
 #### Resilient Cloud Architecture & Databases
 - 📝 [Disaster Recovery & Business Continuity](<Study%20Notes/Disaster%20Recovery%20%26%20Business%20Continuity.md>)
 - 📝 [Amazon DynamoDB](<Study%20Notes/DynamoDB.md>)
 - 📝 [Amazon Redshift](<Study%20Notes/Redshift.md>)
-- 📝 [Networking & CloudFront](<Study%20Notes/Networking.md>)
-- 📝 [CloudFront CDN](<Study%20Notes/Cloudfront.md>)
+- 📝 [Networking, VPC & Route 53](<Study%20Notes/Networking.md>) *(+ VPC Flow Logs + Endpoints)*
+- 📝 [CloudFront CDN](<Study%20Notes/Cloudfront.md>) *(+ overview)*
 - 📝 [AWS Storage Services](<Study%20Notes/Storage.md>)
 
 #### Monitoring, Logging & Event Processing
+- 📝 [Amazon CloudWatch](<Study%20Notes/CloudWatch.md>) ⭐ *new — Metrics, Logs, Insights, Unified Agent, VPC Flow Logs*
+- 📝 [AWS CloudTrail](<Study%20Notes/CloudTrail.md>) ⭐ *new*
+- 📝 [AWS X-Ray](<Study%20Notes/XRay.md>) ⭐ *new*
 - 📝 [Amazon EventBridge](<Study%20Notes/EventBridge.md>)
 - 📝 [Amazon Kinesis Family](<Study%20Notes/Kinesis%20Family.md>)
 - 📝 [Amazon SQS](<Study%20Notes/SQS.md>)
 - 📝 [AWS Serverless Architecture](<Study%20Notes/Serverless.md>)
-- 📝 [Custom Integrations](<Study%20Notes/Custom%20Integrations.md>)
+- 📝 [Custom Integrations & Automation Patterns](<Study%20Notes/Custom%20Integrations.md>) *(+ Security Hub, Macie, Service Catalog, Amplify, Trusted Advisor)*
 
-#### Security, Analytics & Media
-- 📝 [AWS Identity and Access Management (IAM)](<Study%20Notes/IAM.md>)
+#### Security, Compliance & Analytics
+- 📝 [AWS Identity and Access Management (IAM)](<Study%20Notes/IAM.md>) *(+ Organizations, Control Tower, CloudHSM, Directory Service)*
 - 📝 [AWS Key Management Service (KMS)](<Study%20Notes/KMS.md>)
+- 📝 [Amazon GuardDuty](<Study%20Notes/GuardDuty.md>) ⭐ *new*
+- 📝 [Amazon Inspector](<Study%20Notes/Inspector.md>) ⭐ *new*
+- 📝 [Network Security (WAF, Shield, Network Firewall, Firewall Manager)](<Study%20Notes/NetworkFirewall.md>) ⭐ *new*
 - 📝 [Amazon EMR](<Study%20Notes/EMR.md>)
 - 📝 [Amazon QuickSight](<Study%20Notes/Quicksight.md>)
 - 📝 [AWS Media Services](<Study%20Notes/Media.md>)

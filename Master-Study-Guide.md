@@ -207,3 +207,222 @@ Welcome to the comprehensive Master Study Guide for the **AWS Certified DevOps E
 | **AWS Secrets Manager** | Encrypted Secret Rotation | Auto-rotating RDS passwords, API tokens, native cross-account access. |
 | **AWS X-Ray** | Distributed Tracing | End-to-end trace view of microservice latency, bottleneck analysis (`X-Amzn-Trace-Id`). |
 | **AWS Security Hub** | Security Compliance Aggregator | Unified view of security posture against CIS benchmarks and Security standards. |
+
+---
+
+## 9. Extended Reference — Topics Added from PDF Consolidation
+
+> This section fills gaps identified from the Pluralsight course PDFs that were not fully covered in the original guide.
+
+---
+
+### 9.1 SDLC Automation — Additional Services
+
+#### AWS CodeCommit
+- Managed **Git-based source code repository** — no server management.
+- Compatible with all Git commands. Integrates with CodeBuild, CodeDeploy, CodePipeline.
+- **Other supported pipeline sources:** GitHub, Bitbucket, GitLab, **S3 (versioning must be enabled)**.
+- Security: IAM policies, HTTPS/SSH auth, encryption at rest (KMS), resource-based policies for cross-account access.
+- `AWSCodeCommitPowerUser` — developer-level policy (all actions except repo create/delete).
+- **Triggers** — fire on push/branch events → invoke Lambda or SNS for automation.
+
+#### AWS CodeArtifact
+- Managed **package repository** (npm, PyPI, Maven, NuGet, Swift, Cargo).
+- **Domain** — top-level grouping; performs deduplication (pay once for same package version across repos).
+- **Upstream connections** — cache packages from public registries (npmjs.com, PyPI, Maven Central) locally.
+- Use in CodeBuild: fetch dependencies from CodeArtifact instead of public internet for security + reliability.
+
+#### Amazon CodeGuru
+- **Reviewer** — ML-powered automated code review on PRs; detects bugs, security issues, resource leaks, AWS API misuse.
+- **Profiler** — runtime performance profiling; identifies expensive lines of code; works in build/test and production.
+- **Secrets Detector** — scans code for hard-coded credentials; recommends moving to Secrets Manager.
+
+#### EC2 Image Builder
+- Automates building, testing, and distributing **golden AMIs** and **Docker images**.
+- **Image Recipe** — defines customisation/hardening steps (install software, apply patches, run scripts).
+- Schedule pipeline to keep AMIs up to date with latest patches automatically.
+- Integrates with EventBridge: trigger rebuild when AWS releases a new base AMI.
+
+#### Jenkins on AWS
+- **Open-source** build/orchestration tool; can replace CodeBuild or CodePipeline.
+- **Master-agent architecture** — build workers run in an **Auto Scaling group** for elasticity.
+- Plugins: CodeBuild, CodePipeline, CodeDeploy, S3, EC2.
+- Multiple Jenkins masters in multiple AZs for high availability.
+
+#### Pipeline Testing Types
+| Stage | Test Type |
+|-------|-----------|
+| Build | Unit tests, static code analysis |
+| Post-build | Integration tests, service/API tests |
+| Pre-deploy | UAT, performance/load tests, compliance tests |
+| Post-deploy | Smoke tests, end-to-end tests |
+
+**Testing Pyramid:** Unit (many, cheap) → Integration → Service/API → UI/E2E (few, expensive).
+
+#### AWS Amplify
+- Full-stack mobile and web development platform.
+- **Amplify Studio** — visual development environment (UI + backend).
+- **Amplify Hosting** — Git-based CI/CD + hosting; auto-deploy on `git push`; feature branch preview URLs.
+
+---
+
+### 9.2 Configuration Management — Additional Topics
+
+#### AWS CDK (Cloud Development Kit)
+- Framework to define infrastructure using **high-level languages**: TypeScript, Python, Java, C#, Go.
+- **Synthesises to a CloudFormation template** — CloudFormation deploys the stack.
+- Building blocks: **App** (root) → **Stack** (CF stack) → **Construct** (cloud component).
+- Construct levels: L1 (raw CF resource), L2 (curated abstraction with defaults), L3 (pattern — multiple resources).
+- Reduces hundreds of YAML lines to tens of code lines for complex resources (VPC, networking).
+
+#### CloudFormation StackSets — Key Details
+- **Admin account** deploys to **target accounts** across multiple regions.
+- Permission models: **Self-managed** (manual IAM roles) vs **Service-managed** (AWS Organizations).
+- **Automatic deployment** — with Organizations, new accounts added to an OU get the stack deployed automatically.
+- `Maximum concurrent accounts` and `failure tolerance` control rollout behaviour.
+
+#### OpsWorks Modes (Quick Reference)
+| Mode | Description |
+|------|-------------|
+| **Stacks** | Chef Solo; define layers; no managed master |
+| **Chef Automate** | AWS-managed Chef server |
+| **Puppet Enterprise** | AWS-managed Puppet master |
+- Supports **hybrid** (on-premises nodes reachable by Chef/Puppet).
+
+---
+
+### 9.3 Monitoring & Logging — Additional Topics
+
+#### AWS CloudTrail
+- Records all **API calls** to AWS (Console, CLI, SDK, services).
+- **Management events** — default on (control-plane: create/delete/modify).
+- **Data events** — optional (S3 object-level operations, Lambda invocations).
+- **Insights events** — anomaly detection on unusual API volumes.
+- Logs → S3 (primary) + optional CloudWatch Logs delivery.
+- **Log integrity validation** — SHA-256 hash; detects tampered log files.
+- **Organisation trail** — one trail covers all accounts in the org.
+- Near-real-time response: CloudTrail → EventBridge → Lambda/SSM.
+
+#### AWS X-Ray — Key Details
+- **Service Map** — visual topology with health color codes (Green/Yellow/Red).
+- **Annotations** — searchable key-value pairs; **Metadata** — non-searchable context.
+- **X-Ray Daemon** — sidecar on UDP 2000; required on EC2, ECS (sidecar container), Lambda (built-in).
+- **Sampling** — not every request recorded by default; custom sampling rules available.
+
+#### CloudWatch Unified Agent
+- Single agent for both **custom metrics** (memory, disk, swap) and **logs**.
+- Configured via **SSM Parameter Store** for centralised fleet management.
+- Replaces older CloudWatch Logs Agent and SSM metric collection.
+
+#### VPC Flow Logs — Does NOT Capture
+Instance metadata (169.254.169.254), DNS, DHCP, Windows license activation, Time Sync Service.
+
+---
+
+### 9.4 Incident & Event Response — Additional Patterns
+
+#### Config Auto-Remediation (Full Pattern)
+```
+Config Rule (change trigger) → evaluates resource → NON_COMPLIANT
+    → SSM Automation Document runs
+    → Resource fixed
+    → Config re-evaluates → COMPLIANT
+    → (optional) EventBridge → SNS → notify team
+```
+
+#### GuardDuty → Remediation (Full Pattern)
+```
+GuardDuty finding (e.g., CryptoCurrency mining)
+    → EventBridge rule
+    → Lambda function
+    → Modify Security Group (deny all traffic = isolate)
+    → Snapshot EBS (forensics)
+    → SNS notification to security team
+```
+
+#### Multi-Account Security Event Routing
+```
+GuardDuty / Config / Security Hub (member accounts)
+    → EventBridge (member account)
+    → Cross-account Event Bus (Security/SIEM account)
+    → Lambda / Step Functions → centralised alerting / ticketing
+```
+
+---
+
+### 9.5 Security & Compliance — Additional Topics
+
+#### Network Security Hierarchy
+| Layer | Service |
+|-------|---------|
+| DDoS (L3/L4) | AWS Shield (Standard = free; Advanced = paid) |
+| Web attacks (L7) | AWS WAF (Web ACL on CloudFront/ALB/API GW) |
+| VPC traffic filtering | AWS Network Firewall (stateful; IDS/IPS) |
+| Instance-level | Security Groups + NACLs |
+| Central policy mgmt | AWS Firewall Manager (org-wide WAF/Shield/NF policies) |
+
+#### Amazon GuardDuty — Key Details
+- Data sources: VPC Flow Logs, CloudTrail, DNS logs, EKS audit logs, RDS login events, Lambda network activity.
+- Finding types: Reconnaissance, Instance Compromise, Account Compromise, Bucket Compromise.
+- Multi-account: **delegated administrator** via Organizations.
+- Suppression rules to reduce noise from known-safe activity.
+
+#### Amazon Inspector — Key Details
+- Scans: EC2 (requires SSM Agent), ECR container images, Lambda functions.
+- **Continuous** — re-evaluates automatically when new CVEs are published.
+- Multi-account: delegated administrator.
+- Remediation: Finding → EventBridge → SSM Patch Manager.
+
+#### Amazon Macie
+- ML-based discovery of **PII and sensitive data** in S3 buckets.
+- Generates findings → EventBridge → Lambda (auto-quarantine/encrypt) or Security Hub.
+- Use for compliance (GDPR, HIPAA, PCI).
+
+#### AWS Service Catalog
+- IT admins create **portfolios** of approved products (CloudFormation templates).
+- End users self-service deploy approved products without direct IAM permissions to underlying services.
+- Share portfolios across accounts via Organizations.
+- Enforces **governance** (tagging, constraints, approval workflows).
+
+#### AWS Organizations + Control Tower
+- **Control Tower** — automated landing zone with guardrails (preventive = SCPs; detective = Config rules).
+- **RAM (Resource Access Manager)** — share resources (subnets, TGW, Route 53 rules) across accounts.
+- **CloudHSM** — dedicated single-tenant HSM; FIPS 140-2 Level 3; you manage keys (AWS has no access).
+- **AWS Directory Service** — Managed Microsoft AD for domain join and SSO; trust with on-prem AD.
+
+#### SSM Systems Manager at Scale
+- **OpsCenter** — centralised operational issue (OpsItem) tracking; integrates with GuardDuty, Config, CloudWatch Alarms.
+- **Inventory** — aggregate managed node metadata across all accounts into S3.
+- **IoT Greengrass support** — SSM Agent on edge devices.
+- **PrivateLink** — keep EC2 ↔ SSM traffic private (no internet); requires 3 VPC interface endpoints.
+
+---
+
+### 9.6 Updated Service Keyword Cheat Sheet
+
+| Keyword / Scenario | Service |
+|--------------------|---------|
+| Auditing API calls | **CloudTrail** |
+| PII / sensitive data in S3 | **Macie** |
+| CVE scanning / vulnerability assessment | **Inspector** |
+| Threat detection / anomalous behaviour | **GuardDuty** |
+| Aggregate security findings | **Security Hub** |
+| DDoS protection | **AWS Shield** |
+| Layer 7 web attack filtering | **AWS WAF** |
+| VPC stateful firewall / IDS / IPS | **Network Firewall** |
+| Central firewall policy across org | **Firewall Manager** |
+| Config management (Chef/Puppet) | **OpsWorks** |
+| Distributed tracing / microservices debug | **AWS X-Ray** |
+| Code quality review on PRs | **CodeGuru Reviewer** |
+| Runtime performance profiling | **CodeGuru Profiler** |
+| Hard-coded secrets in code | **CodeGuru Secrets Detector** |
+| Golden AMI automation | **EC2 Image Builder** |
+| Package repository (npm/PyPI/Maven) | **CodeArtifact** |
+| Full-stack web/mobile app platform | **AWS Amplify** |
+| Approved products self-service | **Service Catalog** |
+| High-level IaC (TypeScript/Python/Java) | **AWS CDK** |
+| Multi-account stack deployment | **CloudFormation StackSets** |
+| Dedicated HSM hardware | **CloudHSM** |
+| Managed Microsoft AD | **Directory Service** |
+| Share resources across accounts | **RAM** |
+| Automated multi-account governance | **Control Tower** |

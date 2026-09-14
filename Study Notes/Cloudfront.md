@@ -49,3 +49,57 @@ https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-conte
 
 
 
+
+---
+
+## CloudFront Overview
+
+- **Global Content Delivery Network (CDN)** — caches content at **edge locations** worldwide.
+- Reduces latency for end users by serving content from the nearest edge location.
+- Supports: **S3, ALB, EC2, API Gateway, and custom HTTP origins**.
+- Default certificate: `*.cloudfront.net` (free). Custom domain requires **ACM certificate** in `us-east-1`.
+
+## Origins
+- **S3 bucket** — static website or object delivery; use **Origin Access Control (OAC)** to restrict direct S3 access.
+- **HTTP server** — EC2, ALB, API Gateway, or any public HTTP endpoint.
+- **Multiple origins** — use **origin groups** for failover.
+
+## Behaviours
+- Cache behaviour rules based on path patterns (e.g., `/api/*` → different cache TTL or origin).
+- Control caching: `TTL`, `Cache-Control` headers, `Origin Protocol Policy`.
+
+## Security Features
+- **AWS WAF integration** — attach a Web ACL to a CloudFront distribution for L7 filtering.
+- **AWS Shield** — free DDoS protection at L3/L4 for all CloudFront distributions.
+- **HTTPS enforcement** — `Redirect HTTP to HTTPS` or `HTTPS Only`.
+- **OAC (Origin Access Control)** — CloudFront authenticates with S3 using SigV4; prevents direct S3 access.
+- **Geo restriction** — allow or block requests by country.
+
+---
+
+## Additional Notes
+
+### Tips
+- CloudFront distributions can be used as a WAF attachment target.
+- Use **signed URLs or cookies** to control access to private content.
+- Invalidate objects using `/*` to clear entire cache (charged per path per invalidation).
+
+### Field Level Encryption
+- Encrypts specific fields in POST requests using a **public key** at the edge.
+- Only your origin (holding the private key) can decrypt the fields.
+- Use case: protect sensitive form fields (e.g., credit card numbers) in transit.
+
+### Signed URLs and Signed Cookies
+| Feature | Use Case |
+|---------|---------|
+| **Signed URL** | Restricts access to a **single file/object** |
+| **Signed Cookie** | Restricts access to **multiple files** (e.g., entire video library) |
+- Both use a **CloudFront key pair** created by the AWS root account.
+- Set expiry time and optional IP restrictions.
+
+### SNI vs Dedicated IP for HTTPS
+| Method | Cost | Browser Support |
+|--------|------|----------------|
+| **SNI (Server Name Indication)** | Free | Modern browsers (2010+) |
+| **Dedicated IP** | ~$600/month | All browsers including legacy |
+- Use SNI unless you must support very old clients.
